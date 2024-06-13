@@ -50,6 +50,7 @@ export function createStore<T>(reducer: Reducer<T>) {
         return Object.freeze(state);
     }
 
+    // dummy action to produce an initial state
     dispatch({ type: '@@INIT' });
     return {
         dispatch,

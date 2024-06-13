@@ -2,7 +2,7 @@ import { reducer } from "./reducer";
 import { createStore } from "./store";
 import { CountState } from "./types";
 
-const store = createStore<CountState>(reducer);
+const store = createStore(reducer);
 
 // subscribers
 const firstSubscriber = store.subscribe(() => console.log(store.getState(), "first subscriber"));
