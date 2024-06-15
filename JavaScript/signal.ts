@@ -33,17 +33,14 @@ function signal<T>(initialValue: T) {
         subscribers.forEach(fn => fn());
     }
 
-    getValue.update = function <T extends (...args: any) => void>(func: T) {
-        return func(value);
-    }
-
     return getValue;
 }
 
 
-const mySignal = signal(2);
+const count = signal(0);
+const doubleCount = computed(() => count() * 2);
 
-console.log(mySignal()); // 2
-console.log(mySignal.update((v) => v + 2)); // 4
-const multiplyBy2 = computed(() => 2 * mySignal());
-console.log(multiplyBy2()) // 4
+console.log(count()); // 0
+count.set(1);
+console.log(count()) // 1
+console.log(doubleCount()) // 2
