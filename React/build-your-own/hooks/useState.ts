@@ -1,56 +1,91 @@
-// hooks are build using Arrays
-
-// useState for state management
 console.clear();
 
-// useState module
+// Mimic React application
 const MiniReact = (() => {
-    // initial value passed
-    // state is an array
-    // use index and 
 
-    // return useState
-    let state: Array<any> = [];
+    // hooks are build using Arrays
+    let hooks: Array<any> = [];
     let index = 0;
     const useState = <T>(initialValue: T): [T, (value: T) => void] => {
         const localIndex = index;
-        index++;
-        if (state[localIndex] == null) {
-            state[localIndex] = initialValue;
+        if (hooks[localIndex] == null) {
+            hooks[localIndex] = initialValue;
         }
 
+        // setterFunction encloses over localIndex
         const setterFunction = (newValue: T) => {
-            state[localIndex] = newValue;
-            console.log(state[localIndex], 'inside setter function');
+            hooks[localIndex] = newValue;
         }
-        console.log(state[localIndex]);
 
-        return [state[localIndex], setterFunction];
-    }
+        index++;
+        return [hooks[localIndex], setterFunction];
+    };
+
+    const useEffect = (callback: (...args: any[]) => void, dependencies?: Array<any>) => {
+        let hasChanged = true;
+        // Initial render, oldDependencies is `undefined`
+        // dependencies are set at last
+        // Re-render, oldDependencies becomes equal to dependencies of previous render
+        const oldDependencies: Array<any> = hooks[index];
+
+        if (oldDependencies) {
+            hasChanged = false;
+            if (dependencies) {
+                hasChanged = dependencies.some((dependency, index) => {
+                    const oldDependency = oldDependencies[index];
+                    // compare old with current 
+                    return Object.is(dependency, oldDependency);
+
+                });
+                console.log('hasChanged', hasChanged);
+            }
+        }
+
+        // if any of the dependency has changed, re-render
+        if (hasChanged) {
+            callback();
+        }
+
+        // Initially index is length of hooks array
+        // any dependency will be added as new element to hooks at last index
+        hooks[index] = dependencies;
+        index++;
+    };
 
     const resetIndex = () => {
         index = 0;
     };
+
     return {
         useState,
+        useEffect,
         resetIndex
     }
 })();
 
-const { useState, resetIndex } = MiniReact;
+const { useState, useEffect, resetIndex } = MiniReact;
 
 const component = () => {
     const [counterValue, setCounterValue] = useState<number>(0);
-    console.log(counterValue, "initial value");
+    const [name, setName] = useState<string>("John Doe");
+    useEffect(() => console.log("useEffect"), [name]);
     if (counterValue != 1) {
         setCounterValue(1);
     }
+
+    if (name != "Jane Doe" && counterValue == 1) {
+        setName("Jane Doe");
+    }
+
+    console.log(name);
+    console.log(counterValue);
 };
 
 // Initial render
 component();
-
 // clear the index in between re-renders
 resetIndex();
 // mimic Re-render by invoking component
+component();
+resetIndex();
 component();
