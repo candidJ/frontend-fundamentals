@@ -1,7 +1,7 @@
 import Observer from "./Observer";
+import { TearDown } from "./Teardown";
 
-// SimpleObservable = Observable is function which emit values returns teardown logic
-export function SimpleObservable(observer: Observer) {
+export function SimpleObservable(observer: Observer): TearDown {
     let id = 0;
     const intervalId = setInterval(() => {
         observer.next(id++);

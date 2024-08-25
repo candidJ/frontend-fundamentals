@@ -1,10 +1,15 @@
 import Observer from "./Observer";
 import { Subscription } from "./subscription";
 
-// SafeSubscriber enables safety guarantees and encapsulates tear down logic
-export class SafeSubscriber implements Observer {
+/* 
+* SafeObservable enables 
+*   - safety guarantees when invoking 'next', 'error' and 'complete' methods
+*   - encapsulates tear down logic
+*/
+export class SafeObservable implements Observer {
     isClosed = false;
     constructor(private destination: Observer, private subscription: Subscription) {
+        // add the tear down logic (mark the stream as 'closed') on init
         this.subscription.add(() => this.isClosed = true);
     }
 

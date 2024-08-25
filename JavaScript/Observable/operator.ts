@@ -1,7 +1,7 @@
 import Observer from "./Observer";
 import { Observable } from "./observable";
 
-export function map(fn: any): (source: Observable<any>) => Observable<any> {
+export function map(fn: (val: any) => void): (source: Observable<any>) => Observable<any> {
     return (source: Observable<any>) => {
         return new Observable((subscriber: Observer) => {
             const teardown = source.subscribe({
