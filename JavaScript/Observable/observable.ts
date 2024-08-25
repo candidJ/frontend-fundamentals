@@ -1,6 +1,6 @@
 import Observer from './Observer.ts';
 import { SimpleObservable } from './simple-observable.ts';
-import { SafeObservable } from './safe-subscriber.ts';
+import { SafeObservable } from './safe-observable.ts';
 import { TeardownLogic } from './TeardownLogic.ts';
 import { Subscription } from './subscription.ts';
 import { pipe } from './pipe.ts';
