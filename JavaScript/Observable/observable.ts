@@ -1,7 +1,7 @@
 import Observer from './Observer.ts';
 import { SimpleObservable } from './simple-observable.ts';
 import { SafeObservable } from './safe-subscriber.ts';
-import { TearDown } from './Teardown.ts';
+import { TeardownLogic } from './TeardownLogic.ts';
 import { Subscription } from './subscription.ts';
 import { pipe } from './pipe.ts';
 import { map } from './operator.ts';
@@ -13,7 +13,7 @@ import { map } from './operator.ts';
  * returns an 'subscription' which enables listeners to unsubscribe from source at any time.
  */
 export class Observable<T> {
-    constructor(private sourceWrapper: (observer: Observer) => TearDown) { }
+    constructor(private sourceWrapper: (observer: Observer) => TeardownLogic) { }
 
     subscribe(observer: Observer): Subscription {
         const subscription = new Subscription();

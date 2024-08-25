@@ -1,9 +1,9 @@
-import { TearDown } from "./Teardown";
+import { TeardownLogic } from "./TeardownLogic";
 
 export class Subscription {
-    private tearDowns: Set<TearDown> = new Set();
+    private tearDowns: Set<TeardownLogic> = new Set();
 
-    add(teardown: TearDown): void {
+    add(teardown: TeardownLogic): void {
         this.tearDowns.add(teardown);
     }
 
